@@ -16,9 +16,13 @@ public class GameManager : MonoBehaviour
     public float landWorth;
     public float fearLevel;
 
+    [HideInInspector] public SituationSystem situationSystem;
+    [HideInInspector] public bool startSituationSystem;
+    [HideInInspector] public GameObject Tutorial;
     public GameObject Rival1;
 
-    string cityName;
+   // in case I want to make it so the player can name their city
+   // public string cityName;
 
     public Button ShopButton;
 
@@ -26,6 +30,7 @@ public class GameManager : MonoBehaviour
     public Slider landWorthSlider;
     public Slider fearLevelSlider;
 
+    public GameObject WinScreen;
     public GameObject GameOverScreen;
 
     public List<BuildingType> buildings;
@@ -59,6 +64,8 @@ public class GameManager : MonoBehaviour
         GameOverScreen.SetActive(false);
 
         StartCoroutine(MoneyCoroutine());
+
+        Tutorial.SetActive(true);
     }
 
     // Update is called once per frame
@@ -71,9 +78,19 @@ public class GameManager : MonoBehaviour
             GameOverScreen.SetActive(true);
         }
 
+        if(startSituationSystem == true)
+        {
+            situationSystem.gameObject.SetActive(true);
+        }
+
         if(playerMoney == 100000)
         {
             Rival1.SetActive(true);
+        }
+
+        if(playerMoney == 1000000)
+        {
+            WinScreen.SetActive(true);
         }
     }
 
@@ -111,5 +128,10 @@ public class GameManager : MonoBehaviour
     {
         playerMoneyDisplay.text = "$" + playerMoney;
         landWorthSlider.value = landWorth;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
