@@ -23,9 +23,15 @@ public class SituationSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        eventTimer -= Time.deltaTime;
 
-        if (eventTimer <= 0.0f && MessageWindow.activeSelf)
+        if(MessageWindow.activeSelf == false)
+        {
+            eventTimer -= Time.deltaTime;
+        }
+
+
+        //I know the second conditional should never occur but I wanted to have some redundancy
+        if (eventTimer <= 0.0f && MessageWindow.activeSelf == true)
         {
             randomRoll = Random.Range(0, 4);
 
