@@ -52,7 +52,7 @@ public class BuildingSystem : MonoBehaviour
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.R))
         {
             objectToPlace.Rotate();
         }

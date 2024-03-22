@@ -8,6 +8,8 @@ public class SituationSystem : MonoBehaviour
     public GameObject MessageWindow;
     public TextMeshProUGUI EventName;
     public TextMeshProUGUI EventText;
+    public GameObject AcceptButton;
+    public GameObject NextButton;
 
     public float eventTimer;
     public int randomRoll;
@@ -71,7 +73,7 @@ public class SituationSystem : MonoBehaviour
     public void Event1()
     {
         // Do something, change variables in Game Manager. Same for every event
-        DisplayEventWindow();
+        DisplayEventWindow("Accept");
 
         EventName.text = "Fraud Report";
         EventText.text = "A goody two shoes showed the IRS your taxes. Pay off your accountant to make it go away";
@@ -83,7 +85,7 @@ public class SituationSystem : MonoBehaviour
 
     public void Event2()
     {
-        DisplayEventWindow();
+        DisplayEventWindow("Accept");
 
         EventName.text = "Monster Rumor";
         EventText.text = "The locals believed your " + '\u0022' + "true story" + '\u0022' + " about a monster running wild." +
@@ -116,10 +118,21 @@ public class SituationSystem : MonoBehaviour
 
 
     #region Event Window Display
-    public void DisplayEventWindow()
+    public void DisplayEventWindow(string buttonName)
     {
         MessageWindow.SetActive(true);
         EventText.text = "";
+        AcceptButton.SetActive(false);
+        NextButton.SetActive(false);
+
+        if(buttonName == "Accept")
+        {
+            AcceptButton.SetActive(true);
+        }
+        else if(buttonName == "Next")
+        {
+            NextButton.SetActive(true);
+        }
     }
 
     public void CloseEventWindow()
