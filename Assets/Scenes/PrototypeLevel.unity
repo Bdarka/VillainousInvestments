@@ -1563,14 +1563,15 @@ MonoBehaviour:
   situationSystem: {fileID: 0}
   startSituationSystem: 0
   Tutorial: {fileID: 0}
-  Rival1: {fileID: 2067821426}
+  rivals: []
   ShopButton: {fileID: 1488074454}
   playerMoneyDisplay: {fileID: 1601034}
   landWorthSlider: {fileID: 2096133460}
   fearLevelSlider: {fileID: 490764540}
   WinScreen: {fileID: 0}
   GameOverScreen: {fileID: 448663203}
-  buildings: []
+  playerBuildings: []
+  rivalBuildings: []
 --- !u!4 &752206642
 Transform:
   m_ObjectHideFlags: 0
@@ -4094,6 +4095,7 @@ MonoBehaviour:
   - {fileID: 6365729108533227482, guid: 0f0c84074e2ee3244a885312f9b83dc0, type: 3}
   Buttons:
   - {fileID: 1488074454}
+  objectToPlace: {fileID: 0}
 --- !u!1 &1869008419
 GameObject:
   m_ObjectHideFlags: 0
@@ -5399,6 +5401,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a926d43722dcc4a9ad6089d6e48f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rivalStartingMoney: 0
+  rivalMoney: 0
+  rivalIncome: 0
+  randomX: 0
+  randomZ: 0
+  rolledPositon: {x: 0, y: 0, z: 0}
+  buildingSystem: {fileID: 0}
+  buildingPrefab: {fileID: 0}
+  createdBuilding: {fileID: 0}
 --- !u!4 &2067821428
 Transform:
   m_ObjectHideFlags: 0

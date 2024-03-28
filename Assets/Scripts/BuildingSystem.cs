@@ -21,11 +21,11 @@ public class BuildingSystem : MonoBehaviour
     // Slight deviation from tutorial. I want the project to be more scaleable
     public List<GameObject> prefabBuilds = new List<GameObject>();
 
-    public Dictionary<PlaceableObject, Button> BuildingButtonPairs = new Dictionary<PlaceableObject, Button>();
+   // public Dictionary<PlaceableObject, Button> BuildingButtonPairs = new Dictionary<PlaceableObject, Button>();
     public PlaceableObject[] placeableObjects;
     public Button[] Buttons;
 
-    private PlaceableObject objectToPlace;
+    public PlaceableObject objectToPlace;
 
     #region Unity Methods 
 
@@ -124,6 +124,7 @@ public class BuildingSystem : MonoBehaviour
     }
 
 
+    /*
     public void DictionarySetup()
     {
         // Pairing each building with its respective button
@@ -132,7 +133,7 @@ public class BuildingSystem : MonoBehaviour
             BuildingButtonPairs.Add(placeableObjects[i], Buttons[i]);
         }
     }
-
+    */
     #endregion
 
     #region Building Placement
@@ -153,7 +154,7 @@ public class BuildingSystem : MonoBehaviour
         obj.AddComponent<ObjectDrag>();
     }
 
-    private bool CanBePlaced(PlaceableObject placeableObject)
+    public bool CanBePlaced(PlaceableObject placeableObject)
     {
         BoundsInt area = new BoundsInt();
         area.position = gridLayout.WorldToCell(objectToPlace.GetStartPosition());

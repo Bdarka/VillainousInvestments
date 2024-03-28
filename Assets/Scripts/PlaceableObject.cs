@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PlaceableObject : MonoBehaviour
 {
-   public bool Placed {  get; private set; }
-   public Vector3Int Size { get; private set; }
-   private Vector3[] Vertices;
+    public bool Placed {  get; private set; }
+    public Vector3Int Size { get; private set; }
+    private Vector3[] Vertices;
 
     public BuildingType buildingType;
+
+    public bool playersBuilding;
+
 
     private void GetColliderVertexPositionsLocal()
     {
@@ -46,6 +49,7 @@ public class PlaceableObject : MonoBehaviour
         GetColliderVertexPositionsLocal();
         CalculateSizeInCells();
         buildingType = GetComponent<BuildingType>();
+        playersBuilding = true;
     }
 
     public void Rotate()
@@ -65,14 +69,18 @@ public class PlaceableObject : MonoBehaviour
 
     public virtual void Place()
     {
+
         ObjectDrag drag = gameObject.GetComponent<ObjectDrag>();
-        Destroy(drag);
+        if (drag != null)
+        {
+            Destroy(drag);
+        }
+
 
         Placed = true;
 
         // invoke placement events here 
-
+        if(playersBuilding)
         GameManager.instance.BuildingTracking(buildingType);
-
     }
 }

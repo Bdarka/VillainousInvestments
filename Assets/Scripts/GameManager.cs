@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public SituationSystem situationSystem;
     [HideInInspector] public bool startSituationSystem;
     [HideInInspector] public GameObject Tutorial;
-    public GameObject Rival1;
+    public List<RivalScript> rivals = new List<RivalScript>();
+
 
    // in case I want to make it so the player can name their city
    // public string cityName;
@@ -33,7 +34,8 @@ public class GameManager : MonoBehaviour
     public GameObject WinScreen;
     public GameObject GameOverScreen;
 
-    public List<BuildingType> buildings;
+    public List<BuildingType> playerBuildings;
+    public List<BuildingType> rivalBuildings;
 
     private void Awake()
     {
@@ -59,7 +61,8 @@ public class GameManager : MonoBehaviour
         landWorth = 0;
         landWorthSlider.value = 0;
 
-        buildings = new List<BuildingType>();
+        playerBuildings = new List<BuildingType>();
+        rivalBuildings = new List<BuildingType>();
 
         GameOverScreen.SetActive(false);
 
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
 
         if(playerMoney == 100000)
         {
-            Rival1.SetActive(true);
+            rivals[0].gameObject.SetActive(true);
         }
 
         if(playerMoney == 1000000)
@@ -101,7 +104,7 @@ public class GameManager : MonoBehaviour
         playerMoney -= buildingType.BuildingCost;
         playerIncome += buildingType.BuildingPayOut;
         landWorth += buildingType.BuildingLandWorth;
-        buildings.Add(buildingType);
+        playerBuildings.Add(buildingType);
     }
 
     public void SellBuilding(BuildingType buildingType)
@@ -109,7 +112,15 @@ public class GameManager : MonoBehaviour
         playerMoney += buildingType.BuildingSellPrice;
         playerIncome -= buildingType.BuildingPayOut;
         landWorth -= buildingType.BuildingLandWorth;
-        buildings.Remove(buildingType);
+        playerBuildings.Remove(buildingType);
+    }
+
+    public void RivalBuildingTracking(BuildingType buildingType)
+    {
+        rivals[0].rivalMoney -= buildingType.BuildingCost;
+        rivals[0].rivalIncome += buildingType.BuildingPayOut;
+        landWorth += buildingType.BuildingLandWorth;
+        rivalBuildings.Add(buildingType);
     }
 
     #endregion
