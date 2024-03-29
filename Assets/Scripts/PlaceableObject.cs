@@ -8,10 +8,9 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size { get; private set; }
     [HideInInspector]public Vector3[] Vertices;
 
-    public Rigidbody rb;
     public BoxCollider buildingCheck;
 
-    public BuildingType buildingType;
+    public BuildingType myBuildingType;
 
     public bool playersBuilding;
 
@@ -53,8 +52,7 @@ public class PlaceableObject : MonoBehaviour
         CalculateSizeInCells();
 
         buildingCheck = GetComponentInChildren<BoxCollider>();
-        rb = GetComponentInChildren<Rigidbody>();
-        buildingType = GetComponent<BuildingType>();
+        myBuildingType = GetComponent<BuildingType>();
     }
 
     public void Rotate()
@@ -86,25 +84,37 @@ public class PlaceableObject : MonoBehaviour
 
         // invoke placement events here 
 
+        CheckSurroundings();
         
-        
-        GameManager.instance.BuildingTracking(buildingType, this);
+        GameManager.instance.BuildingTracking(myBuildingType, this);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void CheckSurroundings()
     {
-        Collider[] col = Physics.OverlapBox(this.transform.position, collision.transform.position);
+        Collider[] col = Physics.OverlapBox(buildingCheck.transform.position, transform.localPosition, Quaternion.identity);
 
         foreach(Collider c in col)
         {
             BuildingType bt = c.GetComponent<BuildingType>();
-            
+
             if(bt != null)
             {
-                switch(bt.BuildingName)
+
+                switch(bt.buildingName)
                 {
                     case BuildingType.BuildingName.Office:
                         {
+                            if(myBuildingType.buildingName == BuildingType.BuildingName.Office)
+                            {
+                                myBuildingType.BuildingPayOut += 10;
+                                myBuildingType.BuildingLandWorth += 10;
+                            }
+                            else if(myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
+                            {
+                                bt.BuildingPayOut -= 5;
+                                bt.BuildingLandWorth -= 5;
+                            }
+
                             break;
                         }
                     case BuildingType.BuildingName.Swamp:
@@ -115,9 +125,8 @@ public class PlaceableObject : MonoBehaviour
                         {
                             break;
                         }
-
+                        
                 }
-
             }
         }
 

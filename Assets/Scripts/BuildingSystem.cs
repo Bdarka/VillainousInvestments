@@ -59,7 +59,7 @@ public class BuildingSystem : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(CanBePlaced(objectToPlace) && objectToPlace.buildingType.BuildingCost <= GameManager.instance.playerMoney)
+            if(CanBePlaced(objectToPlace) && objectToPlace.myBuildingType.BuildingCost <= GameManager.instance.playerMoney)
             {
                 objectToPlace.Place();
                 Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());

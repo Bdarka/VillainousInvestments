@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class BuildingType : MonoBehaviour
 {
-    public int BuildingCost;
-    public int BuildingSellPrice;
-    public int BuildingPayOut;
-    public int BuildingLandWorth;
-
     public enum BuildingName
     {
         Office,
@@ -16,6 +13,13 @@ public class BuildingType : MonoBehaviour
         Warehouse,
         RivalOffice
     }
+
+    public int BuildingCost;
+    public int BuildingSellPrice;
+    public int BuildingPayOut;
+    public int BuildingLandWorth;
+    public BuildingName buildingName;
+   
 
 
     /*

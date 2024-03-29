@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5896539169300795005}
   - component: {fileID: 1463102347119644855}
-  - component: {fileID: 2097824710707795856}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -54,33 +53,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.5, y: 0.27572274, z: 5.046864}
   m_Center: {x: 0, y: 0.10671827, z: -0.03161359}
---- !u!54 &2097824710707795856
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355236915969008122}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1917172835735689240
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,8 +63,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8142002919946300763}
   - component: {fileID: 8149460911530424222}
-  - component: {fileID: 6365729108533227482}
-  - component: {fileID: 8234918261653475377}
+  - component: {fileID: 875404060760338039}
+  - component: {fileID: 303543821089317831}
   m_Layer: 0
   m_Name: Building 1
   m_TagString: Untagged
@@ -138,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9577518, y: 1.6579839, z: 2.0139408}
   m_Center: {x: 0.017736316, y: 0.8271887, z: -0.0029233098}
---- !u!114 &6365729108533227482
+--- !u!114 &875404060760338039
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,10 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Vertices: []
-  buildingCheck: {fileID: 0}
-  buildingType: {fileID: 8234918261653475377}
+  buildingCheck: {fileID: 1463102347119644855}
+  myBuildingType: {fileID: 303543821089317831}
   playersBuilding: 1
---- !u!114 &8234918261653475377
+--- !u!114 &303543821089317831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,6 +142,7 @@ MonoBehaviour:
   BuildingSellPrice: 50
   BuildingPayOut: 10
   BuildingLandWorth: 5
+  buildingName: 0
 --- !u!1001 &3936566634480996711
 PrefabInstance:
   m_ObjectHideFlags: 0

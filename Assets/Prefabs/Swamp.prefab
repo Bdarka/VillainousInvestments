@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1dead8b527a504b84c892cf5feb2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingType: {fileID: 613642189315458583}
+  Vertices: []
+  buildingCheck: {fileID: 0}
+  myBuildingType: {fileID: 0}
   playersBuilding: 1
 --- !u!114 &613642189315458583
 MonoBehaviour:
@@ -64,6 +66,7 @@ MonoBehaviour:
   BuildingSellPrice: -50
   BuildingPayOut: -5
   BuildingLandWorth: -10
+  buildingName: 1
 --- !u!1001 &5677645387936459687
 PrefabInstance:
   m_ObjectHideFlags: 0
