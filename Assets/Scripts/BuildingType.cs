@@ -13,7 +13,8 @@ public class BuildingType : MonoBehaviour
     {
         Office,
         Swamp,
-        Warehouse
+        Warehouse,
+        RivalOffice
     }
 
 

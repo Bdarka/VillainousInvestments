@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public SituationSystem situationSystem;
     [HideInInspector] public bool startSituationSystem;
-    [HideInInspector] public GameObject Tutorial;
+   // [HideInInspector] public GameObject Tutorial;
     public List<RivalScript> rivals = new List<RivalScript>();
 
 
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public Button ShopButton;
 
     public TextMeshProUGUI playerMoneyDisplay;
+    public TextMeshProUGUI rivalMoneyDisplay;
     public Slider landWorthSlider;
     public Slider fearLevelSlider;
 
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(MoneyCoroutine());
 
-        Tutorial.SetActive(true);
+       // Tutorial.SetActive(true);
     }
 
     // Update is called once per frame
@@ -99,12 +100,22 @@ public class GameManager : MonoBehaviour
 
     #region Building Management
 
-    public void BuildingTracking(BuildingType buildingType)
+    public void BuildingTracking(BuildingType buildingType, PlaceableObject placeableObject)
     {
-        playerMoney -= buildingType.BuildingCost;
-        playerIncome += buildingType.BuildingPayOut;
-        landWorth += buildingType.BuildingLandWorth;
-        playerBuildings.Add(buildingType);
+        if(placeableObject.playersBuilding == true)
+        {
+            playerMoney -= buildingType.BuildingCost;
+            playerIncome += buildingType.BuildingPayOut;
+            landWorth += buildingType.BuildingLandWorth;
+            playerBuildings.Add(buildingType);
+        }
+        else
+        {
+            rivals[0].rivalMoney -= buildingType.BuildingCost;
+            rivals[0].rivalIncome += buildingType.BuildingPayOut;
+            landWorth += buildingType.BuildingLandWorth;
+            rivalBuildings.Add(buildingType);
+        }
     }
 
     public void SellBuilding(BuildingType buildingType)
@@ -115,14 +126,6 @@ public class GameManager : MonoBehaviour
         playerBuildings.Remove(buildingType);
     }
 
-    public void RivalBuildingTracking(BuildingType buildingType)
-    {
-        rivals[0].rivalMoney -= buildingType.BuildingCost;
-        rivals[0].rivalIncome += buildingType.BuildingPayOut;
-        landWorth += buildingType.BuildingLandWorth;
-        rivalBuildings.Add(buildingType);
-    }
-
     #endregion
 
     IEnumerator MoneyCoroutine()
@@ -130,8 +133,13 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             playerMoney += playerIncome;
+
+            foreach (RivalScript rival in rivals)
+            {
+                rival.rivalMoney += rival.rivalIncome;
+            }
+
             yield return new WaitForSeconds(payInterval);
-            Debug.Log((playerMoney));
         }
     }
 
@@ -139,6 +147,7 @@ public class GameManager : MonoBehaviour
     {
         playerMoneyDisplay.text = "$" + playerMoney;
         landWorthSlider.value = landWorth;
+        rivalMoneyDisplay.text = "$" + rivals[0].rivalMoney;
     }
 
     public void ExitGame()

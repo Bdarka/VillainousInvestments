@@ -16,29 +16,51 @@ public class RivalScript : MonoBehaviour
 
     private GameObject findBuildingSystem;
     public BuildingSystem buildingSystem;
+    private GameObject findSituation;
+    public SituationSystem situationSystem;
 
     public PlaceableObject buildingPrefab;
     public PlaceableObject createdBuilding;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         findBuildingSystem = GameObject.Find("Grid");
         buildingSystem = findBuildingSystem.GetComponent<BuildingSystem>();
+
+        findSituation = GameObject.Find("GameManager");
+        situationSystem = findSituation.GetComponent<SituationSystem>();
+
+        rivalMoney = rivalStartingMoney;
+
+        RivalPlaceBuilding();
+
+        actionTimer = Random.Range(45, 500);
     }
 
     // Update is called once per frame
     void Update()
     {
+        actionTimer -= Time.deltaTime;
 
+        if (actionTimer < 0)
+        {
+            RivalPlaceBuilding();
+            actionTimer = Random.Range(45, 500);
+        }
     }
 
     public void RivalPlaceBuilding()
     {
         Vector3 startPos = new Vector3(0, 0, 0);
         createdBuilding = Instantiate(buildingPrefab, startPos, Quaternion.identity);
-        createdBuilding.playersBuilding = false;
+        createdBuilding.gameObject.transform.parent = this.gameObject.transform;
+
+        buildingSystem.objectToPlace = createdBuilding;
         buildingSystem.CanBePlaced(createdBuilding);
+
+        Debug.Log(createdBuilding.name);
 
         while (buildingSystem.CanBePlaced(createdBuilding) == false)
         {
@@ -49,7 +71,12 @@ public class RivalScript : MonoBehaviour
             buildingSystem.CanBePlaced(createdBuilding);
         }
 
+        createdBuilding.Place();
+        Vector3Int start = buildingSystem.gridLayout.WorldToCell(createdBuilding.GetStartPosition());
+        buildingSystem.TakeArea(start, createdBuilding.Size);
 
+        situationSystem.DisplayEventWindow("Accept");
+        situationSystem.RivalPlacedBuilding();    
     }
 }
 

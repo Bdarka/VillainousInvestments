@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6365729108533227482}
   - component: {fileID: 8234918261653475377}
   m_Layer: 0
-  m_Name: Building 1
+  m_Name: Rival Building 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1dead8b527a504b84c892cf5feb2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingType: {fileID: 0}
+  buildingType: {fileID: 8234918261653475377}
+  playersBuilding: 0
 --- !u!114 &8234918261653475377
 MonoBehaviour:
   m_ObjectHideFlags: 0

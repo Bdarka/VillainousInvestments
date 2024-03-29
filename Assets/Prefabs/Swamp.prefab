@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1dead8b527a504b84c892cf5feb2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingType: {fileID: 0}
+  buildingType: {fileID: 613642189315458583}
+  playersBuilding: 1
 --- !u!114 &613642189315458583
 MonoBehaviour:
   m_ObjectHideFlags: 0

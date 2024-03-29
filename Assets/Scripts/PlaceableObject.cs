@@ -6,7 +6,10 @@ public class PlaceableObject : MonoBehaviour
 {
     public bool Placed {  get; private set; }
     public Vector3Int Size { get; private set; }
-    private Vector3[] Vertices;
+    [HideInInspector]public Vector3[] Vertices;
+
+    public Rigidbody rb;
+    public BoxCollider buildingCheck;
 
     public BuildingType buildingType;
 
@@ -44,12 +47,14 @@ public class PlaceableObject : MonoBehaviour
         return transform.TransformPoint(Vertices[0]);
     }
 
-    private void Start()
+    private void Awake()
     {
         GetColliderVertexPositionsLocal();
         CalculateSizeInCells();
+
+        buildingCheck = GetComponentInChildren<BoxCollider>();
+        rb = GetComponentInChildren<Rigidbody>();
         buildingType = GetComponent<BuildingType>();
-        playersBuilding = true;
     }
 
     public void Rotate()
@@ -80,7 +85,42 @@ public class PlaceableObject : MonoBehaviour
         Placed = true;
 
         // invoke placement events here 
-        if(playersBuilding)
-        GameManager.instance.BuildingTracking(buildingType);
+
+        
+        
+        GameManager.instance.BuildingTracking(buildingType, this);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        Collider[] col = Physics.OverlapBox(this.transform.position, collision.transform.position);
+
+        foreach(Collider c in col)
+        {
+            BuildingType bt = c.GetComponent<BuildingType>();
+            
+            if(bt != null)
+            {
+                switch(bt.BuildingName)
+                {
+                    case BuildingType.BuildingName.Office:
+                        {
+                            break;
+                        }
+                    case BuildingType.BuildingName.Swamp:
+                        {
+                            break;
+                        }
+                    case BuildingType.BuildingName.RivalOffice:
+                        {
+                            break;
+                        }
+
+                }
+
+            }
+        }
+
+        buildingCheck.isTrigger = true;
     }
 }

@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
     {
         currentSong = GetComponent<AudioSource>();
         songCount = 0;
-        currentSong.clip = songs[songs.Count];
+        currentSong.clip = songs[songCount];
     }
 
     // turns out there's a quirk with Untiy where if you don't check for if its the current user selected window

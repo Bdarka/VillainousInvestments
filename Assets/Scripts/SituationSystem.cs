@@ -114,6 +114,12 @@ public class SituationSystem : MonoBehaviour
         GameManager.SetUI();
     }
 
+    public void RivalPlacedBuilding()
+    {
+        EventName.text = "Rival Investor";
+        EventText.text = "A Rival placed a building! Get rid of them!";
+    }
+
     #endregion
 
 
