@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        playerMoney = 100;
+        playerMoney = 999;
         playerMoneyDisplay.text = "$" + playerMoney;
         playerIncome = 0;
 

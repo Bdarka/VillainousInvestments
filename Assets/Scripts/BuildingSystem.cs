@@ -26,6 +26,7 @@ public class BuildingSystem : MonoBehaviour
     public Button[] Buttons;
 
     public PlaceableObject objectToPlace;
+    private int buildingCount;
 
     #region Unity Methods 
 
@@ -38,7 +39,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.A) && objectToPlace == null)
         {
             InitializeWithObject(prefabBuilds[0]);
         }
@@ -64,6 +65,7 @@ public class BuildingSystem : MonoBehaviour
                 objectToPlace.Place();
                 Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());
                 TakeArea(start, objectToPlace.Size);
+                objectToPlace = null;
             }
 
             else
@@ -149,9 +151,11 @@ public class BuildingSystem : MonoBehaviour
         Vector3 position = SnapCoordinateToGrid(Vector3.zero);
 
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
+        obj.gameObject.name = prefab.name + buildingCount;
 
         objectToPlace = obj.GetComponent<PlaceableObject>();
         obj.AddComponent<ObjectDrag>();
+        buildingCount++;
     }
 
     public bool CanBePlaced(PlaceableObject placeableObject)

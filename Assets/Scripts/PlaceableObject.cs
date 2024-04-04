@@ -8,7 +8,7 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size { get; private set; }
     [HideInInspector]public Vector3[] Vertices;
 
-    public BoxCollider buildingCheck;
+    public BoxCollider[] buildingChecks;
 
     public BuildingType myBuildingType;
 
@@ -51,7 +51,6 @@ public class PlaceableObject : MonoBehaviour
         GetColliderVertexPositionsLocal();
         CalculateSizeInCells();
 
-        buildingCheck = GetComponentInChildren<BoxCollider>();
         myBuildingType = GetComponent<BuildingType>();
     }
 
@@ -91,45 +90,60 @@ public class PlaceableObject : MonoBehaviour
 
     public void CheckSurroundings()
     {
-        Collider[] col = Physics.OverlapBox(buildingCheck.transform.position, transform.localPosition, Quaternion.identity);
-
-        foreach(Collider c in col)
+        for (int i = 0; i < buildingChecks.Length; i++)
         {
-            BuildingType bt = c.GetComponent<BuildingType>();
+            Collider[] col = Physics.OverlapBox(buildingChecks[i].transform.position, transform.localPosition, Quaternion.identity);
 
-            if(bt != null)
+            foreach (Collider c in col)
             {
+                BuildingType bt = c.GetComponent<BuildingType>();
 
-                switch(bt.buildingName)
+                Debug.Log(myBuildingType + "is my building");
+
+                if (bt != null)
                 {
-                    case BuildingType.BuildingName.Office:
-                        {
-                            if(myBuildingType.buildingName == BuildingType.BuildingName.Office)
+                    Debug.Log(c.gameObject.name + "is the other building");
+
+                    switch (bt.buildingName)
+                    {
+                        case BuildingType.BuildingName.Office:
                             {
-                                myBuildingType.BuildingPayOut += 10;
-                                myBuildingType.BuildingLandWorth += 10;
+                                if (myBuildingType.buildingName == BuildingType.BuildingName.Office)
+                                {
+                                    myBuildingType.BuildingPayOut += 10;
+                                    myBuildingType.BuildingLandWorth += 10;
+
+                                    Debug.Log("My Pay out is now:" + myBuildingType.BuildingPayOut);
+
+                                    bt.BuildingPayOut += 10;
+                                    bt.BuildingLandWorth += 10;
+
+                                    Debug.Log(bt.gameObject.name + "now has a pay out of:" + bt.BuildingPayOut);
+                                }
+                                else if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
+                                {
+                                    bt.BuildingPayOut -= 5;
+                                    bt.BuildingLandWorth -= 5;
+                                }
+
+                                break;
                             }
-                            else if(myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
+                        case BuildingType.BuildingName.Swamp:
                             {
-                                bt.BuildingPayOut -= 5;
-                                bt.BuildingLandWorth -= 5;
+                                break;
+                            }
+                        case BuildingType.BuildingName.RivalOffice:
+                            {
+                                break;
                             }
 
-                            break;
-                        }
-                    case BuildingType.BuildingName.Swamp:
-                        {
-                            break;
-                        }
-                    case BuildingType.BuildingName.RivalOffice:
-                        {
-                            break;
-                        }
-                        
+                    }
                 }
             }
+
+            Destroy(buildingChecks[i].gameObject);
         }
 
-        buildingCheck.isTrigger = true;
-    }
+        buildingChecks = null;
+    }     
 }
