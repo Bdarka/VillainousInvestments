@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlaceableObject : MonoBehaviour
@@ -89,36 +90,55 @@ public class PlaceableObject : MonoBehaviour
     }
 
     public void CheckSurroundings()
-    {
+    {        
+
         for (int i = 0; i < buildingChecks.Length; i++)
         {
-            Collider[] col = Physics.OverlapBox(buildingChecks[i].transform.position, transform.localPosition, Quaternion.identity);
+            Physics.SyncTransforms();
+
+            List<BuildingType> types = new List<BuildingType>();
+
+            Vector3 size = buildingChecks[i].transform.TransformVector(buildingChecks[i].transform.position);
+            size.x = Mathf.Abs(size.x);
+            size.y = Mathf.Abs(size.y);
+            size.z = Mathf.Abs(size.z);
+
+            Collider[] col = Physics.OverlapBox(buildingChecks[i].transform.position, size / 3, Quaternion.identity);
 
             foreach (Collider c in col)
             {
                 BuildingType bt = c.GetComponent<BuildingType>();
 
-                Debug.Log(myBuildingType + "is my building");
+                Debug.Log(myBuildingType + " is my building");
 
                 if (bt != null)
                 {
-                    Debug.Log(c.gameObject.name + "is the other building");
+                    Debug.Log(c.gameObject.name + " is the other building");
 
                     switch (bt.buildingName)
                     {
                         case BuildingType.BuildingName.Office:
                             {
-                                if (myBuildingType.buildingName == BuildingType.BuildingName.Office)
+                                if (myBuildingType.buildingName == BuildingType.BuildingName.Office && types.Contains(bt) == false)
                                 {
                                     myBuildingType.BuildingPayOut += 10;
                                     myBuildingType.BuildingLandWorth += 10;
 
-                                    Debug.Log("My Pay out is now:" + myBuildingType.BuildingPayOut);
+                                    Debug.Log(buildingChecks[i].gameObject.name + " has made " + gameObject.name + "Pay out now: " + myBuildingType.BuildingPayOut);
 
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
 
-                                    Debug.Log(bt.gameObject.name + "now has a pay out of:" + bt.BuildingPayOut);
+                                    if(bt.gameObject == this.gameObject)
+                                    {
+                                        bt.BuildingPayOut -= 10;
+                                        bt.BuildingLandWorth -= 10;
+                                    }
+
+                                    types.Add(bt);
+
+                                    Debug.Log(bt.gameObject.name + " now has a pay out of:" + bt.BuildingPayOut + " because of " + buildingChecks[i]);
+                                    bt = null;
                                 }
                                 else if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
                                 {
@@ -143,7 +163,19 @@ public class PlaceableObject : MonoBehaviour
 
             Destroy(buildingChecks[i].gameObject);
         }
-
         buildingChecks = null;
-    }     
+        Destroy(GetComponent<Rigidbody>());
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if(buildingChecks != null)
+        {
+            foreach (Collider box in buildingChecks)
+            {
+                Gizmos.DrawCube(box.transform.position, box.GetComponent<BoxCollider>().size);
+            }
+        }
+    }
 }
