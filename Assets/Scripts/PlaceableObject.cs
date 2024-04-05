@@ -15,7 +15,7 @@ public class PlaceableObject : MonoBehaviour
 
     public bool playersBuilding;
 
-
+    public List<BuildingType> types = new List<BuildingType>();
     private void GetColliderVertexPositionsLocal()
     {
         // ok I'm sick but from what I understand this is getting the center of the box collider, 
@@ -96,7 +96,7 @@ public class PlaceableObject : MonoBehaviour
         {
             Physics.SyncTransforms();
 
-            List<BuildingType> types = new List<BuildingType>();
+           // List<BuildingType> types = new List<BuildingType>();
 
             Vector3 size = buildingChecks[i].transform.TransformVector(buildingChecks[i].transform.position);
             size.x = Mathf.Abs(size.x);
@@ -119,41 +119,131 @@ public class PlaceableObject : MonoBehaviour
                     {
                         case BuildingType.BuildingName.Office:
                             {
-                                if (myBuildingType.buildingName == BuildingType.BuildingName.Office && types.Contains(bt) == false)
+                                if (myBuildingType.buildingName == BuildingType.BuildingName.Office 
+                                    && types.Contains(bt) == false)
                                 {
+
+                                    if (bt.gameObject == this.gameObject)
+                                    {
+                                        break;
+                                    }
                                     myBuildingType.BuildingPayOut += 10;
                                     myBuildingType.BuildingLandWorth += 10;
 
-                                    Debug.Log(buildingChecks[i].gameObject.name + " has made " + gameObject.name + "Pay out now: " + myBuildingType.BuildingPayOut);
+                                    //Debug.Log(buildingChecks[i].gameObject.name + " has made " + gameObject.name + "Pay out now: " + myBuildingType.BuildingPayOut);
 
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
 
-                                    if(bt.gameObject == this.gameObject)
-                                    {
-                                        bt.BuildingPayOut -= 10;
-                                        bt.BuildingLandWorth -= 10;
-                                    }
-
                                     types.Add(bt);
 
-                                    Debug.Log(bt.gameObject.name + " now has a pay out of:" + bt.BuildingPayOut + " because of " + buildingChecks[i]);
+                                   // Debug.Log(bt.gameObject.name + " now has a pay out of:" + bt.BuildingPayOut + " because of " + buildingChecks[i]);
                                     bt = null;
                                 }
+
                                 else if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
                                 {
                                     bt.BuildingPayOut -= 5;
                                     bt.BuildingLandWorth -= 5;
+
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+
+                                else if(myBuildingType.buildingName == BuildingType.BuildingName.RivalOffice)
+                                {
+                                    myBuildingType.BuildingPayOut += 10;
+                                    myBuildingType.BuildingLandWorth += 10;
+
+                                    bt.BuildingPayOut += 10;
+                                    bt.BuildingLandWorth += 10;
+                                    types.Add(bt);
+                                    bt = null;
                                 }
 
                                 break;
                             }
                         case BuildingType.BuildingName.Swamp:
                             {
+                                if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp 
+                                    && types.Contains(bt) == false)
+                                {
+                                    if (bt.gameObject == this.gameObject)
+                                    {
+                                        break;
+                                    }
+
+                                    myBuildingType.BuildingPayOut -= 10;
+                                    myBuildingType.BuildingLandWorth -= 10;
+
+                                    bt.BuildingPayOut -= 10;
+                                    bt.BuildingLandWorth -= 10;
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+                                
+                                else if(myBuildingType.buildingName == BuildingType.BuildingName.Office 
+                                    && types.Contains(bt) == false)
+                                {
+                                    myBuildingType.BuildingPayOut -= 20;
+                                    myBuildingType.BuildingLandWorth -= 10;
+
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+
+                                else if(myBuildingType.buildingName == BuildingType.BuildingName.RivalOffice)
+                                {
+                                    myBuildingType.BuildingPayOut -= 20;
+                                    myBuildingType.BuildingLandWorth -= 10;
+
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+
                                 break;
                             }
                         case BuildingType.BuildingName.RivalOffice:
                             {
+                                if (myBuildingType.buildingName == BuildingType.BuildingName.RivalOffice 
+                                    && types.Contains(bt) == false)
+                                {
+                                    if (bt.gameObject == this.gameObject)
+                                    {
+                                        break;
+                                    }
+
+                                    myBuildingType.BuildingPayOut += 10;
+                                    myBuildingType.BuildingLandWorth += 10;
+
+                                    bt.BuildingPayOut += 10;
+                                    bt.BuildingLandWorth += 10;
+                                    types.Add(bt);
+                                    bt = null;
+
+                                }
+
+                                else if(myBuildingType.buildingName == BuildingType.BuildingName.Office 
+                                    && types.Contains(bt) == false)
+                                {
+                                    myBuildingType.BuildingPayOut += 10;
+                                    myBuildingType.BuildingLandWorth += 10;
+
+                                    bt.BuildingPayOut += 10;
+                                    bt.BuildingLandWorth += 10;
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+
+                                else if(myBuildingType.buildingName == BuildingType.BuildingName.Swamp
+                                    && types.Contains(bt) == false)
+                                {
+                                    bt.BuildingPayOut -= 10;
+                                    bt.BuildingLandWorth -= 10;
+                                    types.Add(bt);
+                                    bt = null;
+                                }
+
                                 break;
                             }
 

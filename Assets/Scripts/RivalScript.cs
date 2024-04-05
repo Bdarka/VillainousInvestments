@@ -9,14 +9,12 @@ public class RivalScript : MonoBehaviour
     public int rivalMoney;
     public int rivalIncome;
 
-    private float actionTimer;
+    public float actionTimer;
 
     public float randomX, randomZ;
     public Vector3 rolledPositon;
 
-    private GameObject findBuildingSystem;
     public BuildingSystem buildingSystem;
-    private GameObject findSituation;
     public SituationSystem situationSystem;
 
     public PlaceableObject buildingPrefab;
@@ -26,11 +24,8 @@ public class RivalScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        findBuildingSystem = GameObject.Find("Grid");
-        buildingSystem = findBuildingSystem.GetComponent<BuildingSystem>();
-
-        findSituation = GameObject.Find("GameManager");
-        situationSystem = findSituation.GetComponent<SituationSystem>();
+        buildingSystem = GameObject.Find("Grid").GetComponent<BuildingSystem>();
+        situationSystem = GameObject.Find("GameManager").GetComponent<SituationSystem>();
 
         rivalMoney = rivalStartingMoney;
 
@@ -74,6 +69,8 @@ public class RivalScript : MonoBehaviour
         createdBuilding.Place();
         Vector3Int start = buildingSystem.gridLayout.WorldToCell(createdBuilding.GetStartPosition());
         buildingSystem.TakeArea(start, createdBuilding.Size);
+
+        buildingSystem.objectToPlace = null;
 
         situationSystem.DisplayEventWindow("Accept");
         situationSystem.RivalPlacedBuilding();    

@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public int payInterval;
 
     public float landWorth;
-    public float fearLevel;
 
     [HideInInspector] public SituationSystem situationSystem;
     [HideInInspector] public bool startSituationSystem;
@@ -30,7 +29,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerMoneyDisplay;
     public TextMeshProUGUI rivalMoneyDisplay;
     public Slider landWorthSlider;
-    public Slider fearLevelSlider;
 
     public GameObject WinScreen;
     public GameObject GameOverScreen;
@@ -55,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        playerMoney = 999;
+        playerMoney = 100;
         playerMoneyDisplay.text = "$" + playerMoney;
         playerIncome = 0;
 
@@ -77,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         SetUI();
 
-        if(landWorth == 100)
+        if(landWorth >= 100)
         {
             GameOverScreen.SetActive(true);
         }
@@ -87,12 +85,12 @@ public class GameManager : MonoBehaviour
             situationSystem.gameObject.SetActive(true);
         }
 
-        if(playerMoney == 100000)
+        if(playerMoney == 10000)
         {
             rivals[0].gameObject.SetActive(true);
         }
 
-        if(playerMoney == 1000000)
+        if(playerMoney == 100000)
         {
             WinScreen.SetActive(true);
         }
@@ -104,14 +102,14 @@ public class GameManager : MonoBehaviour
     {
         if(placeableObject.playersBuilding == true)
         {
-            playerMoney -= buildingType.BuildingCost;
+            playerMoney -= buildingType.BuildingCost + (int)landWorth;
             playerIncome += buildingType.BuildingPayOut;
             landWorth += buildingType.BuildingLandWorth;
             playerBuildings.Add(buildingType);
         }
         else
         {
-            rivals[0].rivalMoney -= buildingType.BuildingCost;
+            rivals[0].rivalMoney -= buildingType.BuildingCost + (int)landWorth;
             rivals[0].rivalIncome += buildingType.BuildingPayOut;
             landWorth += buildingType.BuildingLandWorth;
             rivalBuildings.Add(buildingType);

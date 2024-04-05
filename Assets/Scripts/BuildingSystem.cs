@@ -43,7 +43,7 @@ public class BuildingSystem : MonoBehaviour
         {
             InitializeWithObject(prefabBuilds[0]);
         }
-        else if(Input.GetKeyDown(KeyCode.D))
+        else if(Input.GetKeyDown(KeyCode.S))
         {
             InitializeWithObject(prefabBuilds[1]);
         }

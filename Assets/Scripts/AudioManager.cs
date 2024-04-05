@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     public AudioSource currentSong;
     public int songCount;
+    public int playSongRoll;
+    public int lastSongPlayed;
     public bool isFocused;
 
     public List<AudioClip> songs = new List<AudioClip>();
@@ -14,8 +16,9 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         currentSong = GetComponent<AudioSource>();
-        songCount = 0;
-        currentSong.clip = songs[songCount];
+        playSongRoll = Random.Range(0, songs.Count);
+        lastSongPlayed = playSongRoll;
+        currentSong.clip = songs[playSongRoll];
     }
 
     // turns out there's a quirk with Untiy where if you don't check for if its the current user selected window
@@ -37,12 +40,26 @@ public class AudioManager : MonoBehaviour
 
     public void PlayNextMusic()
     {
+        /* This is good if you want to play music in sequential order
         if(songCount > songs.Count)
         {
             songCount = 0;
         }
-        currentSong.clip = songs[songCount];
+
+        //currentSong.clip = songs[songCount];
         currentSong.Play();
         songCount++;
+        */
+
+        playSongRoll = Random.Range(0, songCount);
+
+        if(playSongRoll == lastSongPlayed)
+        {
+            playSongRoll++;
+        }
+
+        currentSong.clip = songs[playSongRoll];
+        lastSongPlayed = playSongRoll;
+
     }
 }
