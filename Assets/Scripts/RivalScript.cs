@@ -45,7 +45,7 @@ public class RivalScript : MonoBehaviour
         if (actionTimer < 0)
         {
             RivalPlaceBuilding(buildingPrefab);
-            actionTimer = Random.Range(15, 150);
+            actionTimer = Random.Range(15, 30);
         }
 
         if(rivalBuildings.Count > 0)
