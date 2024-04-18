@@ -45,12 +45,19 @@ public class RivalScript : MonoBehaviour
         if (actionTimer < 0)
         {
             RivalPlaceBuilding(buildingPrefab);
-            actionTimer = Random.Range(45, 500);
+            actionTimer = Random.Range(15, 150);
         }
 
         if(rivalBuildings.Count > 0)
         {
             CalculateLandWorth();
+        }
+
+        if(rivalMoney <= 0)
+        {
+            situationSystem.DisplayEventWindow("Accept");
+            situationSystem.EventName.text = "Rival Defeated";
+            situationSystem.EventText.text = "You bankrupted your rival! Try to earn $10000";
         }
     }
 

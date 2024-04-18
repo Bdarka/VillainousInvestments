@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public SituationSystem situationSystem;
     [HideInInspector] public bool startSituationSystem;
-   // [HideInInspector] public GameObject Tutorial;
+    [HideInInspector] public TutorialScript Tutorial;
     public List<RivalScript> rivals = new List<RivalScript>();
 
 
@@ -32,9 +32,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject WinScreen;
     public GameObject GameOverScreen;
+    public GameObject MessageWindow;
 
     public List<BuildingType> playerBuildings;
     public List<BuildingType> rivalBuildings;
+
+    public SFXManager soundManager;
 
     private void Awake()
     {
@@ -63,11 +66,17 @@ public class GameManager : MonoBehaviour
         playerBuildings = new List<BuildingType>();
         rivalBuildings = new List<BuildingType>();
 
+        WinScreen.SetActive(false);
         GameOverScreen.SetActive(false);
+        MessageWindow.SetActive(false);
 
         StartCoroutine(MoneyCoroutine());
 
-       // Tutorial.SetActive(true);
+        Tutorial = this.GetComponentInChildren<TutorialScript>();
+        situationSystem = this.GetComponentInChildren<SituationSystem>();
+        soundManager = this.GetComponentInChildren<SFXManager>();
+
+        Tutorial.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -87,12 +96,12 @@ public class GameManager : MonoBehaviour
 
         if(playerMoney == 10000)
         {
-            rivals[0].gameObject.SetActive(true);
+            WinScreen.SetActive(true);
         }
 
-        if(playerMoney == 100000)
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            WinScreen.SetActive(true);
+            Application.Quit();
         }
     }
 
@@ -106,6 +115,7 @@ public class GameManager : MonoBehaviour
             playerIncome += buildingType.BuildingPayOut;
             landWorth += buildingType.BuildingLandWorth;
             playerBuildings.Add(buildingType);
+            soundManager.PlaySound(buildingType.buildingName.ToString());
         }
         else
         {

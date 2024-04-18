@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
         playSongRoll = Random.Range(0, songs.Count);
         lastSongPlayed = playSongRoll;
         currentSong.clip = songs[playSongRoll];
+        currentSong.Play();
     }
 
     // turns out there's a quirk with Untiy where if you don't check for if its the current user selected window
@@ -59,6 +60,7 @@ public class AudioManager : MonoBehaviour
         }
 
         currentSong.clip = songs[playSongRoll];
+        currentSong.Play();
         lastSongPlayed = playSongRoll;
 
     }

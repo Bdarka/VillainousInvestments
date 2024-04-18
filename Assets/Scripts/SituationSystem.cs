@@ -11,8 +11,11 @@ public class SituationSystem : MonoBehaviour
     public GameObject AcceptButton;
     public GameObject NextButton;
 
+    public bool startEvents;
     public float eventTimer;
     public int randomRoll;
+
+    public GameObject shopView;
 
     [HideInInspector] public GameManager GameManager;
 
@@ -20,14 +23,17 @@ public class SituationSystem : MonoBehaviour
     void Start()
     {
         GameManager = gameObject.GetComponent<GameManager>();
-        eventTimer = 15;
+        startEvents = false;
+
+        EventName.text = "";
+        EventText.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if(MessageWindow.activeSelf == false)
+        if(MessageWindow.activeSelf == false && shopView.activeSelf == false  && startEvents == true)
         {
             eventTimer -= Time.deltaTime;
         }

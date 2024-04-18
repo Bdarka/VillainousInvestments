@@ -29,6 +29,8 @@ public class BuildingSystem : MonoBehaviour
     private int buildingCount;
     public GameObject buildingParent;
 
+
+
     #region Unity Methods 
 
     private void Awake()
@@ -40,6 +42,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void Update()
     {
+        /*
         if(Input.GetKeyDown(KeyCode.A) && objectToPlace == null)
         {
             InitializeWithObject(prefabBuilds[0]);
@@ -48,7 +51,7 @@ public class BuildingSystem : MonoBehaviour
         {
             InitializeWithObject(prefabBuilds[1]);
         }
-
+        */
         if(objectToPlace == null)
         {
             return;

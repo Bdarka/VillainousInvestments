@@ -15,7 +15,7 @@ public class PlaceableObject : MonoBehaviour
 
     public bool playersBuilding;
 
-    public List<BuildingType> types = new List<BuildingType>();
+    public List<BuildingType> adjacentBuildings = new List<BuildingType>();
     private void GetColliderVertexPositionsLocal()
     {
         // ok I'm sick but from what I understand this is getting the center of the box collider, 
@@ -96,8 +96,6 @@ public class PlaceableObject : MonoBehaviour
         {
             Physics.SyncTransforms();
 
-           // List<BuildingType> types = new List<BuildingType>();
-
             Vector3 size = buildingChecks[i].transform.TransformVector(buildingChecks[i].transform.position);
             size.x = Mathf.Abs(size.x);
             size.y = Mathf.Abs(size.y);
@@ -109,18 +107,18 @@ public class PlaceableObject : MonoBehaviour
             {
                 BuildingType bt = c.GetComponent<BuildingType>();
 
-                Debug.Log(myBuildingType + " is my building");
+               // Debug.Log(myBuildingType + " is my building");
 
                 if (bt != null)
                 {
-                    Debug.Log(c.gameObject.name + " is the other building");
+                   // Debug.Log(c.gameObject.name + " is the other building");
 
                     switch (bt.buildingName)
                     {
                         case BuildingType.BuildingName.Office:
                             {
                                 if (myBuildingType.buildingName == BuildingType.BuildingName.Office 
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
 
                                     if (bt.gameObject == this.gameObject)
@@ -135,7 +133,7 @@ public class PlaceableObject : MonoBehaviour
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
 
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
 
                                    // Debug.Log(bt.gameObject.name + " now has a pay out of:" + bt.BuildingPayOut + " because of " + buildingChecks[i]);
                                     bt = null;
@@ -146,7 +144,7 @@ public class PlaceableObject : MonoBehaviour
                                     bt.BuildingPayOut -= 10;
                                     bt.BuildingLandWorth -= 5;
 
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
 
@@ -157,7 +155,7 @@ public class PlaceableObject : MonoBehaviour
 
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
 
@@ -166,7 +164,7 @@ public class PlaceableObject : MonoBehaviour
                         case BuildingType.BuildingName.Swamp:
                             {
                                 if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp 
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
                                     if (bt.gameObject == this.gameObject)
                                     {
@@ -178,17 +176,17 @@ public class PlaceableObject : MonoBehaviour
 
                                     bt.BuildingPayOut -= 10;
                                     bt.BuildingLandWorth -= 10;
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
                                 
                                 else if(myBuildingType.buildingName == BuildingType.BuildingName.Office 
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
                                     myBuildingType.BuildingPayOut -= 20;
                                     myBuildingType.BuildingLandWorth -= 10;
 
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
 
@@ -197,7 +195,7 @@ public class PlaceableObject : MonoBehaviour
                                     myBuildingType.BuildingPayOut -= 20;
                                     myBuildingType.BuildingLandWorth -= 10;
 
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
 
@@ -206,7 +204,7 @@ public class PlaceableObject : MonoBehaviour
                         case BuildingType.BuildingName.RivalOffice:
                             {
                                 if (myBuildingType.buildingName == BuildingType.BuildingName.RivalOffice 
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
                                     if (bt.gameObject == this.gameObject)
                                     {
@@ -218,29 +216,29 @@ public class PlaceableObject : MonoBehaviour
 
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
 
                                 }
 
                                 else if(myBuildingType.buildingName == BuildingType.BuildingName.Office 
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
                                     myBuildingType.BuildingPayOut += 10;
                                     myBuildingType.BuildingLandWorth += 10;
 
                                     bt.BuildingPayOut += 10;
                                     bt.BuildingLandWorth += 10;
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
                                 }
 
                                 else if(myBuildingType.buildingName == BuildingType.BuildingName.Swamp
-                                    && types.Contains(bt) == false)
+                                    && adjacentBuildings.Contains(bt) == false)
                                 {
                                     bt.BuildingPayOut -= 15;
                                     bt.BuildingLandWorth -= 5;
-                                    types.Add(bt);
+                                    adjacentBuildings.Add(bt);
                                     bt = null;
 
                                 }
