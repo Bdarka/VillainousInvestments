@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingCost: 50
-  BuildingSellPrice: -50
+  BuildingSellPrice: 25
   BuildingPayOut: -5
   BuildingLandWorth: -10
   buildingName: 1

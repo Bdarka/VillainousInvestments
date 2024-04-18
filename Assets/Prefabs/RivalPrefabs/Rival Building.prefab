@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 303543821089317831}
   - component: {fileID: 1226248556412173079}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Rival Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,8 +203,8 @@ MonoBehaviour:
   BuildingCost: 100
   BuildingSellPrice: 50
   BuildingPayOut: 10
-  BuildingLandWorth: 5
-  buildingName: 0
+  BuildingLandWorth: 20
+  buildingName: 3
 --- !u!54 &1226248556412173079
 Rigidbody:
   m_ObjectHideFlags: 0

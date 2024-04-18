@@ -27,6 +27,7 @@ public class BuildingSystem : MonoBehaviour
 
     public PlaceableObject objectToPlace;
     private int buildingCount;
+    public GameObject buildingParent;
 
     #region Unity Methods 
 
@@ -65,6 +66,7 @@ public class BuildingSystem : MonoBehaviour
                 objectToPlace.Place();
                 Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());
                 TakeArea(start, objectToPlace.Size);
+                objectToPlace.transform.parent = buildingParent.transform;
                 objectToPlace = null;
             }
 
@@ -184,5 +186,11 @@ public class BuildingSystem : MonoBehaviour
                             start.x + size.x, start.y + size.y);
     }
 
+
+    public void FreeArea(Vector3Int start, Vector3Int size)
+    {
+        MainTileMap.BoxFill(start, null, start.x, start.y,
+                            start.x + size.x, start.y + size.y);
+    }
     #endregion
 }

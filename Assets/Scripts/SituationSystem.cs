@@ -36,37 +36,51 @@ public class SituationSystem : MonoBehaviour
         //I know the second conditional should never occur but I wanted to have some redundancy
         if (eventTimer <= 0.0f && MessageWindow.activeSelf == true)
         {
-            randomRoll = Random.Range(0, 4);
-
-            switch(randomRoll)
-            {
-                case 0:
-                    // Event 1
-                    Event1();
-                    break;
-
-                case 1:
-                    // Event 2
-                    Event2();
-                    break;
-
-                case 2:
-                    // Event 3
-                    Event3();
-                    break;
-                case 3:
-                    // Event 4
-                    Event4();
-                    break;
-                case 4:
-                    Event5();
-                    break;
-
-                default:
-                    break;
-            }
+            RollEvent();  
         }  
     }
+
+    #region Event Picking Functions
+
+    public void RollEvent()
+    {
+      randomRoll = Random.Range(0, 4);
+
+        switch (randomRoll)
+        {
+            case 0:
+                // Event 1
+                Event1();
+                break;
+
+            case 1:
+                // Event 2
+                Event2();
+                break;
+
+            case 2:
+                // Event 3
+                Event3();
+                break;
+            case 3:
+                // Event 4
+                Event4();
+                break;
+            case 4:
+                Event5();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void RollEventTimer()
+    {
+        eventTimer = Random.Range(0, 240);
+    }
+
+    #endregion
 
     #region Event Functions
 
@@ -81,6 +95,7 @@ public class SituationSystem : MonoBehaviour
         GameManager.playerMoney -= 200;
 
         GameManager.SetUI();
+        RollEventTimer();
     }
 
     public void Event2()
@@ -95,23 +110,41 @@ public class SituationSystem : MonoBehaviour
         GameManager.landWorth -= 20;
 
         GameManager.SetUI();
+        RollEventTimer();
     }
 
     public void Event3()
     {
+        if (GameManager.rivals[0].gameObject.activeSelf == true)
+        {
+            DisplayEventWindow("Accept");
+            EventName.text = "Orphanage Grand Opening";
+            EventText.text = "Your good two shoes Rival just opened an orphanage." + '\n' + "Lets make it go away";
 
+            RivalScript rival = GameManager.rivals[0];
 
-        GameManager.SetUI();
+            rival.RivalPlaceBuilding(rival.orphanagePrefab);
+           
+
+            GameManager.SetUI();
+            RollEventTimer();
+        }
+        else
+        {
+            RollEvent();
+        }
     }
 
     public void Event4()
     {
         GameManager.SetUI();
+        RollEventTimer();
     }
 
     public void Event5()
     {
         GameManager.SetUI();
+        RollEventTimer();
     }
 
     public void RivalPlacedBuilding()

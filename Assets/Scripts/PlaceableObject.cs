@@ -143,7 +143,7 @@ public class PlaceableObject : MonoBehaviour
 
                                 else if (myBuildingType.buildingName == BuildingType.BuildingName.Swamp)
                                 {
-                                    bt.BuildingPayOut -= 5;
+                                    bt.BuildingPayOut -= 10;
                                     bt.BuildingLandWorth -= 5;
 
                                     types.Add(bt);
@@ -238,10 +238,11 @@ public class PlaceableObject : MonoBehaviour
                                 else if(myBuildingType.buildingName == BuildingType.BuildingName.Swamp
                                     && types.Contains(bt) == false)
                                 {
-                                    bt.BuildingPayOut -= 10;
-                                    bt.BuildingLandWorth -= 10;
+                                    bt.BuildingPayOut -= 15;
+                                    bt.BuildingLandWorth -= 5;
                                     types.Add(bt);
                                     bt = null;
+
                                 }
 
                                 break;

@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         SetUI();
 
-        if(landWorth >= 100)
+        if(landWorth >= 300)
         {
             GameOverScreen.SetActive(true);
         }
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 
             foreach (RivalScript rival in rivals)
             {
-                rival.rivalMoney += rival.rivalIncome;
+                rival.rivalMoney += rival.CalculateIncome();
             }
 
             yield return new WaitForSeconds(payInterval);

@@ -1,27 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ShopManager : MonoBehaviour
 {
-    public List<GameObject> Offices = new List<GameObject>();
-    public List<GameObject> Houses = new List<GameObject>();
-    public List<GameObject> Scares = new List<GameObject>();
+    public GameManager GameManager;
+    public BuildingSystem BuildingSystem;
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject shopView;
+    public GameObject shopButton;
+
+    public void Start()
     {
-        
+        shopButton.SetActive(true);
+        shopView.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BuyBuilding()
     {
-        
+        GameObject ButtonRef = GameObject.FindGameObjectWithTag("Event").GetComponent<EventSystem>().currentSelectedGameObject;
+
+        int itemID = ButtonRef.GetComponent<ButtonInfo>().BuildingID;
+
+        BuildingType building = BuildingSystem.prefabBuilds[itemID].GetComponent<BuildingType>();
+
+        if (building == null)
+        {
+            return;
+        }
+
+
+        if(GameManager.playerMoney >= building.BuildingCost)
+        {
+            BuildingSystem.InitializeWithObject(BuildingSystem.prefabBuilds[itemID]);
+        }
+        else
+        {
+            return;
+        }
+
+        shopView.SetActive(false);
+        shopButton.SetActive(true);
     }
 
-    public void SwitchOffice()
+    public void OpenShop()
     {
-
+        shopView.SetActive(true);
+        shopButton.SetActive(false);
     }
+
 }

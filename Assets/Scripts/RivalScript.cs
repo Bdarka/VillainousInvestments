@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,6 +9,7 @@ public class RivalScript : MonoBehaviour
     public int rivalStartingMoney;
     public int rivalMoney;
     public int rivalIncome;
+    public List<GameObject> rivalBuildings = new List<GameObject>();
 
     public float actionTimer;
 
@@ -18,6 +20,7 @@ public class RivalScript : MonoBehaviour
     public SituationSystem situationSystem;
 
     public PlaceableObject buildingPrefab;
+    public PlaceableObject orphanagePrefab;
     public PlaceableObject createdBuilding;
     
 
@@ -29,7 +32,7 @@ public class RivalScript : MonoBehaviour
 
         rivalMoney = rivalStartingMoney;
 
-        RivalPlaceBuilding();
+        RivalPlaceBuilding(buildingPrefab);
 
         actionTimer = Random.Range(45, 500);
     }
@@ -41,15 +44,67 @@ public class RivalScript : MonoBehaviour
 
         if (actionTimer < 0)
         {
-            RivalPlaceBuilding();
+            RivalPlaceBuilding(buildingPrefab);
             actionTimer = Random.Range(45, 500);
+        }
+
+        if(rivalBuildings.Count > 0)
+        {
+            CalculateLandWorth();
         }
     }
 
-    public void RivalPlaceBuilding()
+    #region Rival Money Functions
+
+    private void CalculateLandWorth()
     {
-        Vector3 startPos = new Vector3(0, 0, 0);
-        createdBuilding = Instantiate(buildingPrefab, startPos, Quaternion.identity);
+        foreach(GameObject obj in rivalBuildings)
+        {
+            if (obj != null)
+            {
+                BuildingType bt = obj.GetComponent<BuildingType>();
+                PlaceableObject po = obj.GetComponent<PlaceableObject>();
+
+                if(bt.BuildingLandWorth <= 0)
+                {
+                    rivalMoney += bt.BuildingSellPrice;
+
+                    Vector3Int start = buildingSystem.gridLayout.WorldToCell(po.GetStartPosition());
+
+                    buildingSystem.FreeArea(start, po.Size); 
+
+                    Destroy(obj.gameObject);
+                }
+            }
+        }
+    }
+
+    public int CalculateIncome()
+    {
+        rivalIncome = 0;
+
+        foreach (GameObject obj in rivalBuildings)
+        {
+            if (obj != null)
+            {   
+                BuildingType bt = obj.GetComponent<BuildingType>();
+
+                rivalIncome += bt.BuildingPayOut;
+            }
+        }
+        
+        return rivalIncome;
+    }
+
+    #endregion
+
+    public void RivalPlaceBuilding(PlaceableObject prefab)
+    {
+        //Vector3 startPos = new Vector3(0, 0, 0);
+
+        Vector3 startPos = buildingSystem.SnapCoordinateToGrid(Vector3.zero);
+
+        createdBuilding = Instantiate(prefab, startPos, Quaternion.identity);
         createdBuilding.gameObject.transform.parent = this.gameObject.transform;
 
         buildingSystem.objectToPlace = createdBuilding;
@@ -69,6 +124,8 @@ public class RivalScript : MonoBehaviour
         createdBuilding.Place();
         Vector3Int start = buildingSystem.gridLayout.WorldToCell(createdBuilding.GetStartPosition());
         buildingSystem.TakeArea(start, createdBuilding.Size);
+
+        rivalBuildings.Add(createdBuilding.gameObject);
 
         buildingSystem.objectToPlace = null;
 
