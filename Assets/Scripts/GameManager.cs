@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     public SFXManager soundManager;
 
+    private bool demoBugFix;
+
     private void Awake()
     {
         if(instance == null)
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        playerMoney = 100;
+        playerMoney += 100;
         playerMoneyDisplay.text = "$" + playerMoney;
         playerIncome = 0;
 
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
         soundManager = this.GetComponentInChildren<SFXManager>();
 
         Tutorial.gameObject.SetActive(true);
+        demoBugFix = true;
     }
 
     // Update is called once per frame
@@ -84,7 +87,7 @@ public class GameManager : MonoBehaviour
     {
         SetUI();
 
-        if(landWorth >= 300)
+        if(landWorth >= 100)
         {
             GameOverScreen.SetActive(true);
         }
@@ -102,6 +105,12 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
+        }
+
+        if(Input.GetKeyUp(KeyCode.Insert) && demoBugFix == true)
+        {
+            playerMoney += 200;
+            demoBugFix = false;
         }
     }
 

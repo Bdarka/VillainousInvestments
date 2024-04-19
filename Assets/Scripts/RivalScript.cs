@@ -22,7 +22,8 @@ public class RivalScript : MonoBehaviour
     public PlaceableObject buildingPrefab;
     public PlaceableObject orphanagePrefab;
     public PlaceableObject createdBuilding;
-    
+
+    public GameObject shopView;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,7 @@ public class RivalScript : MonoBehaviour
 
         RivalPlaceBuilding(buildingPrefab);
 
-        actionTimer = Random.Range(45, 500);
+        actionTimer = Random.Range(15, 45);
     }
 
     // Update is called once per frame
@@ -42,10 +43,10 @@ public class RivalScript : MonoBehaviour
     {
         actionTimer -= Time.deltaTime;
 
-        if (actionTimer < 0)
+        if (actionTimer < 0 && shopView.activeSelf == false)
         {
             RivalPlaceBuilding(buildingPrefab);
-            actionTimer = Random.Range(15, 30);
+            actionTimer = Random.Range(15, 60);
         }
 
         if(rivalBuildings.Count > 0)

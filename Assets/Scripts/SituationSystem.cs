@@ -33,7 +33,7 @@ public class SituationSystem : MonoBehaviour
     void Update()
     {
 
-        if(MessageWindow.activeSelf == false && shopView.activeSelf == false  && startEvents == true)
+        if(MessageWindow.activeSelf == false && shopView.activeSelf == false && startEvents == true)
         {
             eventTimer -= Time.deltaTime;
         }
@@ -46,7 +46,7 @@ public class SituationSystem : MonoBehaviour
         }  
     }
 
-    #region Event Picking Functions
+    #region Event Selection Functions
 
     public void RollEvent()
     {
@@ -83,7 +83,35 @@ public class SituationSystem : MonoBehaviour
 
     public void RollEventTimer()
     {
-        eventTimer = Random.Range(0, 240);
+        eventTimer = Random.Range(15, 90);
+    }
+
+    #endregion
+
+    #region Event Window Display
+    public void DisplayEventWindow(string buttonName)
+    {
+        MessageWindow.SetActive(true);
+        EventText.text = "";
+        AcceptButton.SetActive(false);
+        NextButton.SetActive(false);
+
+        if(buttonName == "Accept")
+        {
+            AcceptButton.SetActive(true);
+        }
+        else if(buttonName == "Next")
+        {
+            NextButton.SetActive(true);
+        }
+    }
+
+    public void CloseEventWindow()
+    {
+        EventName.text = "";
+        EventText.text = "";
+        MessageWindow.SetActive(false);
+        eventTimer = Random.Range(30, 300);
     }
 
     #endregion
@@ -112,7 +140,7 @@ public class SituationSystem : MonoBehaviour
         EventText.text = "The locals believed your " + '\u0022' + "true story" + '\u0022' + " about a monster running wild." +
                             '\n' + "They've fled the town in earnest" + '\n' + "Land Worth - 20";
         // could also put "The locals believed your \"true story" but I wanna try the ASCII too
-        
+
         GameManager.landWorth -= 20;
 
         GameManager.SetUI();
@@ -130,7 +158,7 @@ public class SituationSystem : MonoBehaviour
             RivalScript rival = GameManager.rivals[0];
 
             rival.RivalPlaceBuilding(rival.orphanagePrefab);
-           
+
 
             GameManager.SetUI();
             RollEventTimer();
@@ -157,35 +185,6 @@ public class SituationSystem : MonoBehaviour
     {
         EventName.text = "Rival Investor";
         EventText.text = "A Rival placed a building! Get rid of them!";
-    }
-
-    #endregion
-
-
-    #region Event Window Display
-    public void DisplayEventWindow(string buttonName)
-    {
-        MessageWindow.SetActive(true);
-        EventText.text = "";
-        AcceptButton.SetActive(false);
-        NextButton.SetActive(false);
-
-        if(buttonName == "Accept")
-        {
-            AcceptButton.SetActive(true);
-        }
-        else if(buttonName == "Next")
-        {
-            NextButton.SetActive(true);
-        }
-    }
-
-    public void CloseEventWindow()
-    {
-        EventName.text = "";
-        EventText.text = "";
-        MessageWindow.SetActive(false);
-        eventTimer = Random.Range(30, 300);
     }
 
     #endregion

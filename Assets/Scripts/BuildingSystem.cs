@@ -77,7 +77,15 @@ public class BuildingSystem : MonoBehaviour
             {
                 Destroy(objectToPlace.gameObject);
             }
+        }
 
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if(objectToPlace != null)
+            {
+                Destroy(objectToPlace.gameObject);
+                objectToPlace = null;
+            }
         }
 
         else if(Input.GetKeyDown(KeyCode.Escape))

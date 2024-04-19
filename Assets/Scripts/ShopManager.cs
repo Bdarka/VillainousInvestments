@@ -8,6 +8,7 @@ public class ShopManager : MonoBehaviour
 {
     public GameManager GameManager;
     public BuildingSystem BuildingSystem;
+    public GameObject MessageWindow;
 
     public GameObject shopView;
     public GameObject shopButton;
@@ -47,8 +48,11 @@ public class ShopManager : MonoBehaviour
 
     public void OpenShop()
     {
-        shopView.SetActive(true);
-        shopButton.SetActive(false);
+        if(MessageWindow.activeSelf == false)
+        {
+            shopView.SetActive(true);
+            shopButton.SetActive(false);
+        }
     }
 
 }

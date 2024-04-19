@@ -155,7 +155,8 @@ public class TutorialScript : MonoBehaviour
             case 1:
                 {
                     EventName.text = "Tutorial #1";
-                    EventText.text = "Use the R button to rotate buildings before placing them. \n Press the spacebar to place it";
+                    EventText.text = "To place a building, first buy it from the shop. \nClick the shop button and select office";
+
                     break;
                 }
             case 2:
@@ -163,7 +164,7 @@ public class TutorialScript : MonoBehaviour
                     situationSystem.DisplayEventWindow("Accept");
                     
                     EventName.text = "Tutorial #1";
-                    EventText.text = "To place a building, first buy from the shop. \n Click the shop button and select office";
+                    EventText.text = "Use the R button to rotate buildings before placing them. \nPress the spacebar to place it";
 
                     displayTutorial = false;
                     textCount++;
@@ -178,6 +179,22 @@ public class TutorialScript : MonoBehaviour
                 }
             case 4:
                 {
+                    situationSystem.DisplayEventWindow("Next");
+                    EventName.text = "Tutorial #1";
+                    EventText.text = "You can move the camera with either the arrow keys or WASD";
+                    break;
+                }
+
+            case 5:
+                {
+                    situationSystem.DisplayEventWindow("Next");
+                    EventName.text = "Tutorial #1";
+                    EventText.text = "If you misclick in the shop you can press Backspace to fix your mistake";
+                    break;
+                }
+
+            case 6:
+                {
                     situationSystem.DisplayEventWindow("Accept");
 
                     EventName.text = "Tutorial #1";
@@ -189,7 +206,6 @@ public class TutorialScript : MonoBehaviour
                     //  displayTutorial = false;
                     break;
                 }
-
             default:
                 {
                     situationSystem.DisplayEventWindow("Accept");
@@ -250,6 +266,7 @@ public class TutorialScript : MonoBehaviour
                     EventText.text = "Good job placing that Swamp! Maybe we can use it's negative influence for other nefarious deeds later...";
                     ResetTextCount();
                     tutorialLevel++;
+                    gameManager.landWorth -= 20;
                     break;
                 }
 
@@ -277,21 +294,25 @@ public class TutorialScript : MonoBehaviour
                     situationSystem.DisplayEventWindow("Next");
 
                     EventName.text = "Tutorial #3";
-                    EventText.text = "During the course of your villainous schemes various events can occur.For instance...";
+                    EventText.text = "During the course of your villainous schemes various events can occur. For instance...";
 
                     break;
                 }
             case 1:
                 {
-                    IncrementTextCount();
-                    situationSystem.Event2();
+                    situationSystem.DisplayEventWindow("Next");
+
+                    EventName.text = "Monster Rumor";
+                    EventText.text = "The locals believed your   \"true story" + " about a monster running wild." +
+                                                   '\n' + "They've fled the town in earnest" + '\n' + "Land Worth - 20";
+
                     break;
                 }
             case 2:
                 {
                     situationSystem.DisplayEventWindow("Accept");
 
-                    EventName.text = "Tutorial #2";
+                    EventName.text = "Tutorial #3";
                     EventText.text = "Not all events will be in your favor. Enjoy this first freebie and start building your empire.";
 
                     tutorialLevel++;
