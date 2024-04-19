@@ -86,17 +86,19 @@ public class TutorialScript : MonoBehaviour
 
         if(tutorialLevel == 2 && textCount == 3)
         {
-            BuildingType bt = gameManager.playerBuildings[1];
+            //BuildingType bt = buildingSystem.objectToPlace.GetComponent<BuildingType>();
+
+            BuildingType bt = gameManager.playerBuildings[1].GetComponent<BuildingType>();
 
             if(bt.buildingName == BuildingType.BuildingName.Office)
             {
-
+                situationSystem.DisplayEventWindow("Accept");
                 EventName.text = "Tutorial #2";
                 EventText.text = "Don't get ahead of yourself. Make a Swamp first and then we can go back to making money";
                 SmiteBuilding(bt);
             }
 
-            else if(bt != null)
+            else if (bt.buildingName == BuildingType.BuildingName.Swamp)
             {
                 textCount++;
                 displayTutorial = true;
@@ -122,7 +124,7 @@ public class TutorialScript : MonoBehaviour
 
     public void SmiteBuilding(BuildingType bt)
     {
-        PlaceableObject po = gameManager.playerBuildings[0].GetComponent<PlaceableObject>();
+        PlaceableObject po = bt.gameObject.GetComponent<PlaceableObject>();
         situationSystem.DisplayEventWindow("Accept");
 
         gameManager.playerMoney += bt.BuildingCost;
@@ -131,9 +133,9 @@ public class TutorialScript : MonoBehaviour
         Vector3Int start = buildingSystem.gridLayout.WorldToCell(po.GetStartPosition());
         buildingSystem.FreeArea(start, po.Size);
 
-        Destroy(gameManager.playerBuildings[0].gameObject);
+        Destroy(bt.gameObject);
 
-        gameManager.playerBuildings.Clear();
+        gameManager.playerBuildings.Remove(bt);
     }
 
     #endregion
@@ -318,6 +320,7 @@ public class TutorialScript : MonoBehaviour
                     tutorialLevel++;
                     ResetTextCount();
                     gameManager.GetComponent<SituationSystem>().startEvents = true;
+                    gameManager.GetComponent<SituationSystem>().RollEventTimer();
                     break;
                 }
 
@@ -364,7 +367,7 @@ public class TutorialScript : MonoBehaviour
                     situationSystem.DisplayEventWindow("Next");
                     EventName.text = "Tutorial #4";
                     EventText.text = "Just make sure you don't ruin your own buildings in the process";
-
+                    rival.actionTimer = UnityEngine.Random.Range(15, 60);
                     break;
                 }
         
@@ -372,6 +375,7 @@ public class TutorialScript : MonoBehaviour
             case 3:
                 {
                     rival.gameObject.SetActive(true);
+                    textCount++;
                     break;
                 }
 

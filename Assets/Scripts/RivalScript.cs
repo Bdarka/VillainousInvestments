@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,6 +25,9 @@ public class RivalScript : MonoBehaviour
     public PlaceableObject createdBuilding;
 
     public GameObject shopView;
+
+    public TextMeshProUGUI rivalMoneyDisplay;
+    public GameObject moneyBackground;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +63,10 @@ public class RivalScript : MonoBehaviour
             situationSystem.DisplayEventWindow("Accept");
             situationSystem.EventName.text = "Rival Defeated";
             situationSystem.EventText.text = "You bankrupted your rival! Try to earn $10000";
+            this.gameObject.SetActive(false);
+            rivalMoneyDisplay.gameObject.SetActive(false);
+            moneyBackground.SetActive(false);   
+
         }
     }
 

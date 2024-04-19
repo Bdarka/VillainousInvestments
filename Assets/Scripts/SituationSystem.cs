@@ -40,7 +40,7 @@ public class SituationSystem : MonoBehaviour
 
 
         //I know the second conditional should never occur but I wanted to have some redundancy
-        if (eventTimer <= 0.0f && MessageWindow.activeSelf == true)
+        if (eventTimer <= 0.0f)
         {
             RollEvent();  
         }  
