@@ -166,6 +166,12 @@ public class BuildingSystem : MonoBehaviour
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
         obj.gameObject.name = prefab.name + buildingCount;
 
+        if(objectToPlace != null)
+        {
+            Destroy(objectToPlace.gameObject);
+            buildingCount--;
+        }
+
         objectToPlace = obj.GetComponent<PlaceableObject>();
         obj.AddComponent<ObjectDrag>();
         buildingCount++;

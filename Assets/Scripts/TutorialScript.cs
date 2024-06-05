@@ -64,21 +64,20 @@ public class TutorialScript : MonoBehaviour
 
         if(tutorialLevel == 1 && textCount == 2)
         {
-            if(gameManager.playerBuildings.Count > 0)
+            if (gameManager.playerBuildings.Count > 0)
             {
                 BuildingType bt = gameManager.playerBuildings[0];
                 
-
                 if(bt.buildingName == BuildingType.BuildingName.Swamp)
                 {
-                    EventName.text = "Tutorial #1";
-                    EventText.text = "No no no you need to select the office. Try Again";
                     SmiteBuilding(bt);
+                    textCount = 7;
+                    displayTutorial = true;
                 }
 
                 else
                 {
-                    textCount++;
+                    textCount = 3;
                     displayTutorial = true;
                 }
             }
@@ -88,20 +87,24 @@ public class TutorialScript : MonoBehaviour
         {
             //BuildingType bt = buildingSystem.objectToPlace.GetComponent<BuildingType>();
 
-            BuildingType bt = gameManager.playerBuildings[1].GetComponent<BuildingType>();
-
-            if(bt.buildingName == BuildingType.BuildingName.Office)
+            if (gameManager.playerBuildings.Count > 1)
             {
-                situationSystem.DisplayEventWindow("Accept");
-                EventName.text = "Tutorial #2";
-                EventText.text = "Don't get ahead of yourself. Make a Swamp first and then we can go back to making money";
-                SmiteBuilding(bt);
-            }
+                BuildingType bt = gameManager.playerBuildings[1].GetComponent<BuildingType>();
 
-            else if (bt.buildingName == BuildingType.BuildingName.Swamp)
-            {
-                textCount++;
-                displayTutorial = true;
+                if (bt.buildingName == BuildingType.BuildingName.Office)
+                {
+                    situationSystem.DisplayEventWindow("Accept");
+                    EventName.text = "Tutorial #2";
+                    EventText.text = "Don't get ahead of yourself. Make a Swamp first and then we can go back to making money";
+                    SmiteBuilding(bt);
+
+                }
+
+                else if (bt.buildingName == BuildingType.BuildingName.Swamp)
+                {
+                    textCount++;
+                    displayTutorial = true;
+                }
             }
         }
 
@@ -125,10 +128,10 @@ public class TutorialScript : MonoBehaviour
     public void SmiteBuilding(BuildingType bt)
     {
         PlaceableObject po = bt.gameObject.GetComponent<PlaceableObject>();
-        situationSystem.DisplayEventWindow("Accept");
 
         gameManager.playerMoney += bt.BuildingCost;
         gameManager.landWorth -= bt.BuildingLandWorth;
+        gameManager.playerIncome -= bt.BuildingPayOut;
 
         Vector3Int start = buildingSystem.gridLayout.WorldToCell(po.GetStartPosition());
         buildingSystem.FreeArea(start, po.Size);
@@ -136,6 +139,10 @@ public class TutorialScript : MonoBehaviour
         Destroy(bt.gameObject);
 
         gameManager.playerBuildings.Remove(bt);
+    }
+    public void AntiTrollTutorial1()
+    {
+        textCount = 2;
     }
 
     #endregion
@@ -208,10 +215,23 @@ public class TutorialScript : MonoBehaviour
                     //  displayTutorial = false;
                     break;
                 }
+
+            case 7:
+                {
+                    situationSystem.DisplayEventWindow("Accept");
+                    EventName.text = "Tutorial #1";
+                    EventText.text = "No no no you need to select the office. Try Again";
+                    Debug.Log("We out here");
+
+                    AntiTrollTutorial1();
+                    displayTutorial = false;
+                    break;
+                }
             default:
                 {
                     situationSystem.DisplayEventWindow("Accept");
                     textCount = 0;
+                    EventName.text = "DEFAULT";
                     displayTutorial = false;
                     break;
                 }
@@ -219,7 +239,6 @@ public class TutorialScript : MonoBehaviour
 
     }
 
-   
 
     #endregion
 
