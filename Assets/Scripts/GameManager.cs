@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public List<BuildingType> rivalBuildings;
 
     public SFXManager soundManager;
+    public TimeManagerScript timeManager;
 
     private bool demoBugFix;
 
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
         Tutorial = this.GetComponentInChildren<TutorialScript>();
         situationSystem = this.GetComponentInChildren<SituationSystem>();
         soundManager = this.GetComponentInChildren<SFXManager>();
+        timeManager = this.GetComponent<TimeManagerScript>();
 
         Tutorial.gameObject.SetActive(true);
         demoBugFix = true;
@@ -165,6 +167,11 @@ public class GameManager : MonoBehaviour
         playerMoneyDisplay.text = "$" + playerMoney;
         landWorthSlider.value = landWorth;
         rivalMoneyDisplay.text = "$" + rivals[0].rivalMoney;
+    }
+
+    public void DateManager()
+    {
+
     }
 
     public void ExitGame()
