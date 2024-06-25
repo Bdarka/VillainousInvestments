@@ -18,6 +18,8 @@ public class TimeManagerScript : MonoBehaviour
     public TextMeshProUGUI monthDisplay;
     public TextMeshProUGUI yearDisplay;
 
+    public GameObject OptionsMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +35,11 @@ public class TimeManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
+        if(OptionsMenu.activeSelf == false)
+        {
+            time += Time.deltaTime;
+        }
+
 
         if(time >= 48)
         {

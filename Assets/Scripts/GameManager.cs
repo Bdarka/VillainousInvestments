@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
     public SFXManager soundManager;
     public TimeManagerScript timeManager;
 
+    public GameObject OptionsMenu;
+
     private bool demoBugFix;
 
     private void Awake()
@@ -106,7 +108,7 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            OptionMenu();
         }
 
         if(Input.GetKeyUp(KeyCode.Insert) && demoBugFix == true)
@@ -174,8 +176,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ExitGame()
+    public void OptionMenu()
     {
-        Application.Quit();
+        if (OptionsMenu.activeSelf == false)
+        {
+            OptionsMenu.SetActive(true);
+        }
+        else
+        {
+            OptionsMenu.SetActive(false);
+        }
     }
 }
