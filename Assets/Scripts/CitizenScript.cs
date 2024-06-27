@@ -1,12 +1,14 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 
 public class CitizenScript : MonoBehaviour
 {
-    public GameObject Body;
+    public GameObject chosenCar;
 
     public GameObject Home;
     public GameObject Work;
@@ -33,7 +35,8 @@ public class CitizenScript : MonoBehaviour
 
         // Pick workplace
 
-        // Set Colors for NPC
+        // Pick Car for NPC 
+        GetCarModel();
     }
 
     // Update is called once per frame
@@ -58,7 +61,24 @@ public class CitizenScript : MonoBehaviour
         }
         else
         {
-            Body.SetActive(false);
+            chosenCar.SetActive(false);
+        }
+    }
+
+    public void GetCarModel()
+    {
+        int randomRoll = Random.Range(0,this.transform.childCount);
+
+        foreach (Transform child in transform)
+        {
+            if(child == this.transform.GetChild(randomRoll))
+            {
+                chosenCar = this.transform.GetChild(randomRoll).gameObject;
+            }
+            else
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 }

@@ -7,42 +7,41 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    // Manager References
     public static GameManager instance;
+    [HideInInspector] public SituationSystem situationSystem;
+    public SFXManager soundManager;
+    public TimeManagerScript timeManager;
+    public StatsPageScript statsPageScript;
 
+    // Player Resource Tracking
     public int playerMoney;
     public int playerIncome;
     public int payInterval;
-
+    public List<BuildingType> playerBuildings;
     public float landWorth;
+    public string cityName;
 
-    [HideInInspector] public SituationSystem situationSystem;
+    // Tutorial Components
     [HideInInspector] public bool startSituationSystem;
     [HideInInspector] public TutorialScript Tutorial;
+    private bool demoBugFix;
+
+    // Rival Tracking
+    public List<BuildingType> rivalBuildings;
     public List<RivalScript> rivals = new List<RivalScript>();
 
-
-   // in case I want to make it so the player can name their city
-   // public string cityName;
-
-    public Button ShopButton;
-
+    // HUD Displays
     public TextMeshProUGUI playerMoneyDisplay;
     public TextMeshProUGUI rivalMoneyDisplay;
     public Slider landWorthSlider;
 
+    // Message Displays
     public GameObject WinScreen;
     public GameObject GameOverScreen;
     public GameObject MessageWindow;
-
-    public List<BuildingType> playerBuildings;
-    public List<BuildingType> rivalBuildings;
-
-    public SFXManager soundManager;
-    public TimeManagerScript timeManager;
-
     public GameObject OptionsMenu;
 
-    private bool demoBugFix;
 
     private void Awake()
     {
@@ -59,8 +58,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;
-
         playerMoney += 100;
         playerMoneyDisplay.text = "$" + playerMoney;
         playerIncome = 0;
@@ -75,15 +72,17 @@ public class GameManager : MonoBehaviour
         GameOverScreen.SetActive(false);
         MessageWindow.SetActive(false);
 
-        StartCoroutine(MoneyCoroutine());
-
         Tutorial = this.GetComponentInChildren<TutorialScript>();
         situationSystem = this.GetComponentInChildren<SituationSystem>();
         soundManager = this.GetComponentInChildren<SFXManager>();
         timeManager = this.GetComponent<TimeManagerScript>();
 
+        StartCoroutine(MoneyCoroutine());
+
         Tutorial.gameObject.SetActive(true);
         demoBugFix = true;
+
+        statsPageScript.SetupStats();
     }
 
     // Update is called once per frame
@@ -151,9 +150,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator MoneyCoroutine()
     {
-        while (true)
+        while (timeManager.isPaused == false)
         {
             playerMoney += playerIncome;
+
+            statsPageScript.TotalMoneyCount(playerIncome);
 
             foreach (RivalScript rival in rivals)
             {
@@ -171,20 +172,18 @@ public class GameManager : MonoBehaviour
         rivalMoneyDisplay.text = "$" + rivals[0].rivalMoney;
     }
 
-    public void DateManager()
-    {
-
-    }
 
     public void OptionMenu()
     {
         if (OptionsMenu.activeSelf == false)
         {
             OptionsMenu.SetActive(true);
+            timeManager.isPaused = true;
         }
         else
         {
             OptionsMenu.SetActive(false);
+            timeManager.isPaused = false;
         }
     }
 }

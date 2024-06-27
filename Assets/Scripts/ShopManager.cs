@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class ShopManager : MonoBehaviour
 {
     public GameManager GameManager;
+    public TimeManagerScript timeManager;
     public BuildingSystem BuildingSystem;
     public GameObject MessageWindow;
 
@@ -42,16 +43,22 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
-        shopView.SetActive(false);
-        shopButton.SetActive(true);
+        OpenShop();
     }
 
     public void OpenShop()
     {
-        if(MessageWindow.activeSelf == false)
+        if(MessageWindow.activeSelf == false && shopView.activeSelf == false)
         {
             shopView.SetActive(true);
             shopButton.SetActive(false);
+            timeManager.isPaused = true;
+        }
+        else
+        {
+            shopView.SetActive(false);
+            shopButton.SetActive(true);
+            timeManager.isPaused = false;
         }
     }
 
